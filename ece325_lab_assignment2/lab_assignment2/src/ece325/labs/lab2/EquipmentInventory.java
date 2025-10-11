@@ -28,9 +28,7 @@ public class EquipmentInventory {
 	 * @param e The equipment object to add
 	 */
 	public void add(Equipment e) {
-		final int EMPTY = -1;
-
-		if (getInventoryCount(e) == EMPTY) { inventory.add(e); }	// BUG: WILL ADD EQUIPMENT TWICE
+		this.inventory.add(e);
 		increaseInventoryCount(e);
 	}
 
@@ -39,6 +37,7 @@ public class EquipmentInventory {
 	 * @param e The equipment object to remove
 	 */
 	public void remove(Equipment e) {
+		this.inventory.remove(e);
 		decreaseInventoryCount(e);
 	}
 
@@ -50,10 +49,12 @@ public class EquipmentInventory {
 	 * @param e The type of equipment for which we want to increase the inventoryCount
 	 */
 	protected void increaseInventoryCount(Equipment e) {
-		int count = getInventoryCount.get(e);
-		++count;
-		if (count == 0) { ++count; }
-		inventoryCount.put(e.toString(), count);
+		final int DNE = -1;
+		int count = getInventoryCount(e);
+		
+		if (count == DNE) { count = 0; }
+		
+		inventoryCount.put(e.toString(), ++count);
 	}
 
 	/**
@@ -65,15 +66,12 @@ public class EquipmentInventory {
 	 * @param e The type of equipment for which we want to decrease the inventoryCount
 	 */
 	protected void decreaseInventoryCount(Equipment e) {
-		final int DNE = -2;
-
+		final int DNE = -1;
 		int count = getInventoryCount(e);
-		--count;
-		if (count == 0) {
-			inventoryCount.remove(e.toString());
-			inventory.remove(indexOf(e));
-		}
-		else if (count != DNE) { inventoryCount.put(e.toString(), count); }
+
+		if (count != DNE) { inventoryCount.put(e.toString(), --count); }
+
+		if (count == 0) { inventoryCount.remove(e.toString()); }
 	}
 
 	/** 
@@ -83,8 +81,8 @@ public class EquipmentInventory {
 	 * @return
 	 */
 	public Integer getInventoryCount(Equipment e) {
-		if (inventoryCount.get(e) == null) { return -1; }
-		return inventoryCount.get(e);
+		if (inventoryCount.get(e.toString()) == null) { return -1; }
+		return inventoryCount.get(e.toString());
 	}
 	
 	/**
@@ -96,23 +94,43 @@ public class EquipmentInventory {
 	 * @return the string representation of the EquipmentInventory
 	 */
 	public String toString() {
-		int SIZE = inventoryCount.size();
-		int loopCount = 0;
+		int UNIQUE_ITEMS = inventoryCount.size();
+		int itemsPrinted = 0;
 		
 		String result = "[EquipmentInventory: ";
 
 		for (String e: inventoryCount.keySet()) {
-			++loopCount;
-			result.concat(e + ": " + inventoryCount.get(e));
-			if (loopCount != SIZE) { result.concat(", "); }
+			result = result.concat(e + ": " + inventoryCount.get(e));
+			if (++itemsPrinted != UNIQUE_ITEMS) { result = result.concat(", "); }
 		}
 
-		result.concat("]");
-
+		result = result.concat("]");
+		
 		return result;
 	}
 
 	public static void main(String[] args) {
+		EquipmentInventory inventory = new EquipmentInventory();
+
+		for (int i = 0; i < 3; ++i) {
+			inventory.add(new Guitar());
+			inventory.add(new Stool());
+
+			if (i >= 2) { continue; }
+			inventory.add(new Keyboard());
+
+			if (i >= 1) { continue; }
+			inventory.add(new Chair());
+		}
+
+		System.out.println(inventory.toString());
 		
+		for (int i = 0; i < 2; ++i) {
+			inventory.remove(new Guitar());
+			inventory.remove(new Chair());
+		}
+		
+		System.out.println(inventory.toString());
+
 	}
 }
