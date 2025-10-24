@@ -9,7 +9,7 @@ public class SongCollection {
 	private ArrayList<Song> songs;
 
 	public SongCollection() {
-		songs = new ArrayList<Song>;
+		songs = new ArrayList<Song>();
 	}
 
 	/**
@@ -20,14 +20,16 @@ public class SongCollection {
 	 */
 	public void add(Song s) {
 		if (!songs.contains(s))	{ songs.add(s); }
+		else { for (Song song: songs) { if (song.equals(s)) { song.addRating(s.getRating().getAvgRating()); } } }
 	}
 
 	public void remove(Song s) {
-		
+		if (songs.contains(s)) { songs.remove(s); }
 	}
 
 	public boolean contains(Song s) {
-		
+		for (Song song: songs) { if (song.equals(s)) { return true; } }
+		return false;
 	}
 
 	public Song getSong(int index) {

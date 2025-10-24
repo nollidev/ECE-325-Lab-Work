@@ -22,7 +22,8 @@ public class Song {
 	 * Note that you don't have to include the AverageRating in this comparison (as it is not really related to the equality of the Song). 
 	 */
 	public boolean equals(Object o) {
-		if (this.title != o.title;) { return false; }	// I don't quite understand why this exists yet.
+		if (o instanceof Song) { return false; } // TODO: figure out typecast for this line
+		return false;
 	}
 	
 	/**
@@ -30,8 +31,14 @@ public class Song {
 	 * Note that you don't have to include the AverageRating in this comparison (as it is not really related to the equality of the Song). 
 	 */
 	public boolean equals(Song s) {
-		if (this.title != s.title;) { return false; }
-		if (this.instruments != s.instruments;) { return false; }	// TODO: fix to ignore order
+		if (this.title != s.title) { return false; }
+
+		ArrayList<String> ownInstruments = this.instruments;
+		ArrayList<String> partnerInstruments = s.instruments;
+		ownInstruments.sort(null);
+		partnerInstruments.sort(null);
+		
+		if (ownInstruments != partnerInstruments) { return false; }
 		return true;
 	}
 	
