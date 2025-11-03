@@ -21,8 +21,9 @@ public class Song {
 	 * Returns true if the title of and instruments used in the Songs are the same.
 	 * Note that you don't have to include the AverageRating in this comparison (as it is not really related to the equality of the Song). 
 	 */
+	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Song) { return false; } // TODO: figure out typecast for this line
+		if (o instanceof Song) { return equals((Song) o); }
 		return false;
 	}
 	
@@ -31,14 +32,14 @@ public class Song {
 	 * Note that you don't have to include the AverageRating in this comparison (as it is not really related to the equality of the Song). 
 	 */
 	public boolean equals(Song s) {
-		if (this.title != s.title) { return false; }
-
-		ArrayList<String> ownInstruments = this.instruments;
-		ArrayList<String> partnerInstruments = s.instruments;
-		ownInstruments.sort(null);
-		partnerInstruments.sort(null);
+		if (!this.title.equals(s.title)) { return false; }
 		
-		if (ownInstruments != partnerInstruments) { return false; }
+		this.instruments.sort(null);
+		s.instruments.sort(null);
+		
+		
+		if (!this.instruments.equals(s.instruments)) { return false; }
+		
 		return true;
 	}
 	

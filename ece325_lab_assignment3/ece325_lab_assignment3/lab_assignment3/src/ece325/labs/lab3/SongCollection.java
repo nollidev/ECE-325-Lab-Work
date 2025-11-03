@@ -9,7 +9,7 @@ public class SongCollection {
 	private ArrayList<Song> songs;
 
 	public SongCollection() {
-		songs = new ArrayList<Song>();
+		this.songs = new ArrayList<Song>();
 	}
 
 	/**
@@ -19,29 +19,33 @@ public class SongCollection {
 	 * @param s
 	 */
 	public void add(Song s) {
-		if (!songs.contains(s))	{ songs.add(s); }
-		else { for (Song song: songs) { if (song.equals(s)) { song.addRating(s.getRating().getAvgRating()); } } }
+		if (!this.songs.contains(s)) { this.songs.add(s); }
+		else { 
+			for (Song song: this.songs) { 
+				if (song.equals(s)) { song.addRating(s.getRating().getAvgRating()); }
+			}
+		}
 	}
 
 	public void remove(Song s) {
-		if (songs.contains(s)) { songs.remove(s); }
+		if (this.songs.contains(s)) { this.songs.remove(s); }
 	}
 
 	public boolean contains(Song s) {
-		for (Song song: songs) { if (song.equals(s)) { return true; } }
+		for (Song song: this.songs) { if (song.equals(s)) { return true; } }
 		return false;
 	}
 
 	public Song getSong(int index) {
-		return songs.get(index);
+		return this.songs.get(index);
 	}
 
 	public int getNumberOfSongs() {
-		return songs.size();	
+		return this.songs.size();	
 	}
 
 	public ArrayList<Song> getSongs() {
-		return songs;
+		return this.songs;
 	}
 
 	public String toString() {

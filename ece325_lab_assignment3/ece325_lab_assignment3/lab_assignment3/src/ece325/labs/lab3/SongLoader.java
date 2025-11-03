@@ -24,11 +24,17 @@ public class SongLoader {
 	 * @param file
 	 * @return the loaded SongCollection
 	 */
-	public static SongCollection loadSongs(String file) throws InvalidSongFormatException{
+	public static SongCollection loadSongs(String file) {
 		SongCollection result = new SongCollection();
 
-		String[] songArr = loadTxt(file);
-		for (String song: songArr) { result.add(parseSong(song)); }
+		ArrayList<String> songArr = loadTxt(file);
+		for (String song: songArr) { 
+			try { result.add(parseSong(song)); } 
+			catch (InvalidSongFormatException i) {
+				System.err.println("Problem while parsing song");
+				i.printStackTrace();
+			}
+		}
 		
 		return result;
 	}
@@ -45,8 +51,11 @@ public class SongLoader {
 		String[] arr = songString.split(";");
 		
 		String title = arr[0];
-		ArrayList<String> instruments = parseInstrumentsList(arr[1]);
-		AverageRating rating = new AverageRating(Float.parseFloat(arr[2]));
+		String instrumentData = arr[1];
+		String ratingData = arr[2];
+		
+		ArrayList<String> instruments = parseInstrumentsList(instrumentData);
+		AverageRating rating = new AverageRating(Float.parseFloat(ratingData));
 
 		return (new Song(title, instruments, rating));
 	}
@@ -64,39 +73,29 @@ public class SongLoader {
 		ArrayList<String> result = new ArrayList<String>();
 		String[] arr = instruments.split(",");
 
-		for (String instrument: arr) {
-			result.add(instrument);
-		}
+		for (String instrument: arr) { result.add(instrument); }
 		
 		return result;
 	}
 
 	/**
-	 * This method loads a text file into a String array. It assumes the number of 
-	 * lines in the file is on the first line of the file itself.
+	 * This method loads a text file into a ArrayList of String data types.
 	 * 
-	 * Note: you are not allowed to make changes to this method. You can use this method for 
-	 * loading text files in the other lab and course assignments as well.
+	 * Note: rewritten from Lab 1
 	 * 
 	 * @param file
 	 * @return
 	 */
-	private static String[] loadTxt(String file) {
-		String[] data = new String[0];
+	private static ArrayList<String> loadTxt(String file) {
+		ArrayList<String> data = new ArrayList<String>();
 		BufferedReader in = null;
 		
 		try { 
 			in = new BufferedReader(new FileReader(file));
 			String line;
-			int i = 0;
-			int totalLines = 0;
 
-			while((line = in.readLine()) != null) { ++totalLines; }
+			while((line = in.readLine()) != null) { data.add(line); }
 			in.close();
-			in = new BufferedReader(new FileReader(file));
-
-			data = new String[totalLines];
-			while((line = in.readLine()) != null) { data[i++] = line; }
 
 		} catch (Exception e) {
 			System.err.println("Problem while reading file: " + file);
@@ -117,10 +116,6 @@ public class SongLoader {
 
 	public static void main(String[] args) {
 		String file = "songratings.txt";
-		try {
-			System.out.println(SongLoader.loadSongs(file));
-		} catch (InvalidSongFormatException e) {
-			e.printStackTrace();
-		}
+		System.out.println(SongLoader.loadSongs(file));
 	}
 }
