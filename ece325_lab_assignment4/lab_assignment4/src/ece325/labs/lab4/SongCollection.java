@@ -1,5 +1,11 @@
 package ece325.labs.lab4;
 
+import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+
 
 /**
  * This class represents a SongCollection. You are not allowed to change the
@@ -70,8 +76,9 @@ public class SongCollection {
 	 * @param comp
 	 * @return
 	 */
-	public List<Song> sort(...) {
-		
+	public List<Song> sort(SongComparator comp) {
+		List<Song> songList = new ArrayList<Song>(); // TODO: make this list not empty
+		return songList;
 	}
 
 	public static void main(String[] args) {
@@ -86,7 +93,7 @@ public class SongCollection {
 		// Print the songs in the song collection ordered by average rating (from high
 		// to low)
 		System.out.println("Songs in collection ordered by average rating:");
-		System.out.println(coll.sort(...));
+		System.out.println(coll.sort(new SongComparator()));
 
 		demonstrateHashSetUsage();
 
