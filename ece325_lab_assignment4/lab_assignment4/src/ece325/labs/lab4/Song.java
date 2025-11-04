@@ -8,7 +8,7 @@ package ece325.labs.lab4;
  * @author Cor-Paul Bezemer
  *
  */
-public class Song ... {
+public class Song implements Comparable<Song> {
 	// not allowed to change anything after this (until the next marker which says you can add code again)
 	private String title;
 	private AverageRating rating;
@@ -39,5 +39,10 @@ public class Song ... {
 	}
 	
 	// You are allowed to make changes or add code after this line
+	
+	@Override
+	public int compareTo(Song song) {
+		return this.title.compareTo(song.title);
+	}
 		
 }
