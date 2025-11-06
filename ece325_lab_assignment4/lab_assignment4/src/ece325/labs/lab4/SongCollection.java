@@ -4,6 +4,9 @@ import java.util.TreeSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -67,7 +70,68 @@ public class SongCollection {
 	 * @param filename
 	 */
 	public void loadSongs(String filename) {
+		ArrayList<String> songsData = loadTxt(filename);
 		
+		for (String songData: songsData) {
+			String title = null;
+			Float rating = null;
+			Integer votes = null;
+			Song song = null;
+			
+			String[] data = songData.split(";");
+			if (data.length != 3) { continue; }
+			
+			title = data[0];
+			
+			try { rating = Float.parseFloat(data[1]); }
+			catch (NumberFormatException notFloat) { continue; }
+			
+			try { votes = Integer.parseInt(data[2]); }
+			catch (NumberFormatException notInt) { continue; }
+			
+			song = new Song(title, getAverageRating(rating, votes));
+			this.addSong(song);
+		}
+	}
+	
+	private static AverageRating getAverageRating(float rating, int votes) {
+		return new AverageRating(rating, votes);
+	}
+	
+	/**
+	 * This method loads a text file into a ArrayList of String data types.
+	 * 
+	 * Note: rewritten from Lab 1
+	 * 
+	 * @param file
+	 * @return
+	 */
+	private static ArrayList<String> loadTxt(String file) {
+		ArrayList<String> data = new ArrayList<String>();
+		BufferedReader in = null;
+		
+		try { 
+			in = new BufferedReader(new FileReader(file));
+			String line;
+
+			while((line = in.readLine()) != null) { data.add(line); }
+			in.close();
+
+		} catch (Exception e) {
+			System.err.println("Problem while reading file: " + file);
+			e.printStackTrace();			
+		}
+		finally {
+			if(in != null) { 
+				try {
+					in.close();
+				} catch (IOException e) {
+					System.err.println("Problem closing file: " + file);
+					e.printStackTrace();
+				} 
+			}
+		}
+		return data;
 	}
 
 	/**
