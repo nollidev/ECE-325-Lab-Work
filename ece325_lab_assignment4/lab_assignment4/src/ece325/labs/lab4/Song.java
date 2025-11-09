@@ -44,5 +44,22 @@ public class Song implements Comparable<Song> {
 	public int compareTo(Song song) {
 		return this.title.compareTo(song.title);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Song) { 
+			Song song = (Song) obj;
+			return this.compareTo(song) == 0; 
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		// Define the new hash code by the hashcode of its title
+		// Should equal each other if they're equal by value
+		int newHashCode = this.title.hashCode();
+		return newHashCode;
+	}
 		
 }
