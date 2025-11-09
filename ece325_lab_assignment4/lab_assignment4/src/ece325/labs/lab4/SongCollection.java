@@ -94,6 +94,13 @@ public class SongCollection {
 		}
 	}
 	
+	/**
+	 * Return an AverageRating defined by a rating and the number of votes
+	 * 
+	 * @param rating, votes
+	 * 
+	 */
+	
 	private static AverageRating getAverageRating(float rating, int votes) {
 		return new AverageRating(rating, votes);
 	}
