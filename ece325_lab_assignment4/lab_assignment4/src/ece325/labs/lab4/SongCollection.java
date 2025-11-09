@@ -7,6 +7,7 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -74,20 +75,33 @@ public class SongCollection {
 		ArrayList<String> songsData = this.loadTxt(filename);
 		
 		for (String songData: songsData) {
+			ArrayList<String> data = new ArrayList<String>();
+			Scanner songDataScanner = null;
+			
+			try {
+				songDataScanner = new Scanner(songData);
+				songDataScanner.useDelimiter(";");
+				while (songDataScanner.hasNext()) {
+					data.add(songDataScanner.next());
+				}
+			}
+			finally {
+				if (songDataScanner != null) { songDataScanner.close(); }
+			}
+			
 			String title = null;
 			Float rating = null;
 			Integer votes = null;
 			Song song = null;
 			
-			String[] data = songData.split(";");
-			if (data.length != 3) { continue; }
+			if (data.size() != 3) { continue; }
 			
-			title = data[0];
+			title = data.get(0);
 			
-			try { rating = Float.parseFloat(data[1]); }
+			try { rating = Float.parseFloat(data.get(1)); }
 			catch (NumberFormatException notFloat) { continue; }
 			
-			try { votes = Integer.parseInt(data[2]); }
+			try { votes = Integer.parseInt(data.get(2)); }
 			catch (NumberFormatException notInt) { continue; }
 			
 			song = new Song(title, new AverageRating(rating, votes));
@@ -136,7 +150,7 @@ public class SongCollection {
 	 * Returns a list of songs that is sorted by their average ratings.
 	 * 
 	 * @param comp
-	 * @return
+	 * @return songList
 	 */
 	public List<Song> sort(SongComparator comp) {
 		List<Song> songList = new ArrayList<Song>(this.collection);
