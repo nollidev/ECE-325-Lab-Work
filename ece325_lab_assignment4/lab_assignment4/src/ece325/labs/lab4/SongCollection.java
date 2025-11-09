@@ -70,7 +70,7 @@ public class SongCollection {
 	 * @param filename
 	 */
 	public void loadSongs(String filename) {
-		ArrayList<String> songsData = loadTxt(filename);
+		ArrayList<String> songsData = this.loadTxt(filename);
 		
 		for (String songData: songsData) {
 			String title = null;
@@ -89,7 +89,7 @@ public class SongCollection {
 			try { votes = Integer.parseInt(data[2]); }
 			catch (NumberFormatException notInt) { continue; }
 			
-			song = new Song(title, getAverageRating(rating, votes));
+			song = new Song(title, this.getAverageRating(rating, votes));
 			this.addSong(song);
 		}
 	}
@@ -101,7 +101,7 @@ public class SongCollection {
 	 * 
 	 */
 	
-	private static AverageRating getAverageRating(float rating, int votes) {
+	private AverageRating getAverageRating(float rating, int votes) {
 		return new AverageRating(rating, votes);
 	}
 	
@@ -113,7 +113,7 @@ public class SongCollection {
 	 * @param file
 	 * @return
 	 */
-	private static ArrayList<String> loadTxt(String file) {
+	private ArrayList<String> loadTxt(String file) {
 		ArrayList<String> data = new ArrayList<String>();
 		BufferedReader in = null;
 		
