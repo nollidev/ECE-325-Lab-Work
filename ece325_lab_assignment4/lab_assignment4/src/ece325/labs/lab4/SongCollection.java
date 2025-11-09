@@ -90,21 +90,11 @@ public class SongCollection {
 			try { votes = Integer.parseInt(data[2]); }
 			catch (NumberFormatException notInt) { continue; }
 			
-			song = new Song(title, this.getAverageRating(rating, votes));
+			song = new Song(title, new AverageRating(rating, votes));
 			this.addSong(song);
 		}
 	}
 	
-	/**
-	 * Return an AverageRating defined by a rating and the number of votes
-	 * 
-	 * @param rating, votes
-	 * 
-	 */
-	
-	private AverageRating getAverageRating(float rating, int votes) {
-		return new AverageRating(rating, votes);
-	}
 	
 	/**
 	 * This method loads a text file into a ArrayList of String data types.
