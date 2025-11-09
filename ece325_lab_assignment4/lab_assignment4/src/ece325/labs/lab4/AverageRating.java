@@ -3,7 +3,7 @@ package ece325.labs.lab4;
 /** 
  * Finish this class.
  */
-public class AverageRating ... {
+public class AverageRating {
 	// not allowed to change anything after this (until the next marker which says you can add code again)
 	private float avgRating;
 	private int votes;
