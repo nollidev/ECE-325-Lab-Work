@@ -21,6 +21,11 @@ public class Salary {
 	 * @return the amount of pay a band member will get (in dollars)
 	 */
 	public static Double pay(Double salary, Double snacksAmount, Integer bonus) {
+		
+		if (salary == null || snacksAmount == null || bonus == null) {
+			throw new IllegalArgumentException("Arguments must not contain null values.");
+		}
+		
 		// First constraint: salary must not exceed $1,000
 		// 	it also must not be a negative value
 		final int MINIMUMSALARY = 0;
@@ -49,7 +54,7 @@ public class Salary {
 		
 		// TODO: find out if these can/should be implemented as an enum
 		
-		double coefficient = 1 + bonus.doubleValue() / 100;
+		Double coefficient = 1 + bonus.doubleValue() / 100;
 		
 		return (salary - snacksAmount) * coefficient;
 	}
